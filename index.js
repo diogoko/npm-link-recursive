@@ -20,22 +20,43 @@ function getLinkedPackages(prefix) {
   });
 }
 
-function findLinkablePaths(linkedPackages) {
-  var linkable = [];
-  walk.sync('.', function(curPath, stat) {
+function linkAll(linkedPackages) {
+  var walker = walk('.').on('directory', function(curPath, stat) {
     var leaf = path.basename(curPath);
     var leafParent = path.basename(path.dirname(curPath));
     if (leafParent === 'node_modules' && linkedPackages.indexOf(leaf) !== -1) {
-      // TODO: check if it's a directory
-      linkable.push(curPath);
+      walker.pause();
+      linkPath(path.dirname(path.dirname(curPath)), leaf).then(function() {
+        walker.resume();
+      });
     }
   });
-  
-  return linkable;
+}
+
+function linkPath(projectPath, packageName) {
+  return npmUninstall(projectPath, packageName).
+    then(function() {
+      return npmLink(projectPath, packageName);
+    });
+}
+
+function npmUninstall(cwd, packageName) {
+  return new Promise(function(resolve) {
+    exec('npm uninstall ' + packageName, { cwd: cwd }, function(error, stdout, stderr) {
+      resolve();
+    });
+  });
+}
+
+function npmLink(cwd, packageName) {
+  return new Promise(function(resolve) {
+    exec('npm link ' + packageName, { cwd: cwd }, function(error, stdout, stderr) {
+      resolve();
+    });
+  });
 }
 
 getRoot(true).then(function(prefix) {
   var linkedPackages = getLinkedPackages(prefix);
-  var linkablePaths = findLinkablePaths(linkedPackages);
-  // TODO: link all linkable paths
+  linkAll(linkedPackages);
 });
