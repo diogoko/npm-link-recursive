@@ -1,0 +1,15 @@
+{
+  "name": "npm-link-recursive",
+  "version": "0.0.1",
+  "description": "npm link all linkable packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Diogo Kollross",
+  "license": "MIT",
+  "dependencies": {
+    "rsvp": "^3.0.14",
+    "walkdir": "0.0.7"
+  }
+}
