@@ -47,7 +47,7 @@ function linkAll(linkedPackages) {
 }
 
 function linkPath(projectPath, packageName) {
-  console.log('linking ' + projectPath + '/node_modules/' + packageName);
+  console.log('linking ' + path.join(projectPath, 'node_modules', packageName));
   return npmUninstall(projectPath, packageName).
     then(function() {
       return npmLink(projectPath, packageName);
