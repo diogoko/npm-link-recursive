@@ -9,6 +9,7 @@
   },
   "author": "Diogo Kollross",
   "license": "MIT",
+  "repository": "https://github.com/diogoko/npm-link-recursive.git",
   "dependencies": {
     "rsvp": "^3.0.14",
     "walkdir": "0.0.7"

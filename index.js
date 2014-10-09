@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var Promise = require('rsvp').Promise;
 var exec = require('child_process').exec;
 var fs = require('fs');
