@@ -6,9 +6,9 @@ var fs = require('fs');
 var path = require('path');
 var walk = require('walkdir');
 
-function getRoot(global) {
+function getRoot() {
   return new Promise(function(resolve) {
-    exec('npm root ' + (global ? '-g' : ''), function(error, stdout, stderr) {
+    exec('npm root -g'), function(error, stdout, stderr) {
       resolve(stdout.trim());
     });
   });
@@ -58,7 +58,7 @@ function npmLink(cwd, packageName) {
   });
 }
 
-getRoot(true).then(function(prefix) {
+getRoot().then(function(prefix) {
   var linkedPackages = getLinkedPackages(prefix);
   linkAll(linkedPackages);
 });
